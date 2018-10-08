@@ -30,6 +30,8 @@ import io.airlift.units.MinDuration;
 import org.joda.time.DateTimeZone;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -137,6 +139,7 @@ public class HiveClientConfig
 
     private boolean tableStatisticsEnabled = true;
     private int partitionStatisticsSampleSize = 100;
+    private boolean ignoreCorruptedStatistics;
     private boolean collectColumnStatisticsOnWrite;
 
     public int getMaxInitialSplits()
@@ -828,6 +831,8 @@ public class HiveClientConfig
         return this;
     }
 
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     public double getOrcWriterValidationPercentage()
     {
         return orcWriterValidationPercentage;
@@ -1091,6 +1096,19 @@ public class HiveClientConfig
     public HiveClientConfig setPartitionStatisticsSampleSize(int partitionStatisticsSampleSize)
     {
         this.partitionStatisticsSampleSize = partitionStatisticsSampleSize;
+        return this;
+    }
+
+    public boolean isIgnoreCorruptedStatistics()
+    {
+        return ignoreCorruptedStatistics;
+    }
+
+    @Config("hive.ignore-corrupted-statistics")
+    @ConfigDescription("Ignore corrupted statistics rather than failing")
+    public HiveClientConfig setIgnoreCorruptedStatistics(boolean ignoreCorruptedStatistics)
+    {
+        this.ignoreCorruptedStatistics = ignoreCorruptedStatistics;
         return this;
     }
 

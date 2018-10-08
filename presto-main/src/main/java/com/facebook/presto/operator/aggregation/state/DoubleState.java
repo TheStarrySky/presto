@@ -11,15 +11,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.facebook.presto.operator.aggregation.state;
 
-package com.facebook.presto.cost;
+import com.facebook.presto.spi.function.AccumulatorState;
 
-import com.facebook.presto.sql.planner.plan.PlanNode;
-
-import java.util.List;
-
-@FunctionalInterface
-public interface PlanNodeSourceProvider
+public interface DoubleState
+        extends AccumulatorState
 {
-    List<PlanNode> getSources(PlanNode node);
+    double getDouble();
+
+    void setDouble(double value);
 }
